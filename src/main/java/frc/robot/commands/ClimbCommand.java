@@ -32,7 +32,7 @@ public class ClimbCommand extends Command {
   @Override
   public void execute() {
     double leftError = pidController.calculate(m_subsystem.getLeftEncoder() * ClimbConstants.encoderTicks2Meters, leftSetpoint);
-    double rightError = pidController.calculate(m_subsystem.getRightEncoder() * ClimbConstants.encoderTicks2Meters, leftSetpoint);
+    double rightError = pidController.calculate(m_subsystem.getRightEncoder() * ClimbConstants.encoderTicks2Meters, rightSetpoint);
 
     m_subsystem.setLeftMotor(leftError);
     m_subsystem.setRightMotor(rightError);
