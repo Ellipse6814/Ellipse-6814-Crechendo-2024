@@ -7,6 +7,14 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class LimelightSubsystem extends SubsystemBase {
+    public static LimelightSubsystem instance;
+
+    public static LimelightSubsystem getInstance() {
+      if (instance == null)
+          instance = new LimelightSubsystem();
+      return instance;
+    }
+
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry botpose = table.getEntry("botpose");
 

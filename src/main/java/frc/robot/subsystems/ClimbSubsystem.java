@@ -8,6 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbSubsystem extends SubsystemBase {
+  public static ClimbSubsystem instance;
+
+  public static ClimbSubsystem getInstance() {
+    if (instance == null)
+        instance = new ClimbSubsystem();
+    return instance;
+  }
+
   /** Creates a new ExampleSubsystem. */
   public ClimbSubsystem() {
 
