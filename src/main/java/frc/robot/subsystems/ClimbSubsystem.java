@@ -18,6 +18,14 @@ public class ClimbSubsystem extends SubsystemBase {
   public RelativeEncoder leftEncoder = leftMotor.getEncoder();
   public RelativeEncoder rightEncoder = rightMotor.getEncoder();
 
+  public static ClimbSubsystem instance;
+
+  public static ClimbSubsystem getInstance() {
+    if (instance == null)
+        instance = new ClimbSubsystem();
+    return instance;
+  }
+
   /** Creates a new ExampleSubsystem. */
   public ClimbSubsystem() {
 

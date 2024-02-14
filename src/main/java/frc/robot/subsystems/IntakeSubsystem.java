@@ -8,6 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
+  public static IntakeSubsystem instance;
+
+  public static IntakeSubsystem getInstance() {
+    if (instance == null)
+        instance = new IntakeSubsystem();
+    return instance;
+  }
+
   /** Creates a new ExampleSubsystem. */
   public IntakeSubsystem() {
 
