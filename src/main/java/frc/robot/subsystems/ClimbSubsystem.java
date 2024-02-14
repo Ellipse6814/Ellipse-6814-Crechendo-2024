@@ -16,7 +16,7 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
 
-  public void setRightMotor1(double speed){
+  public void setRightMotor(double speed){
 
   }
 
