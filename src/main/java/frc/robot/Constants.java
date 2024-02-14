@@ -18,6 +18,17 @@ public final class Constants {
   public static class OIConstants {
     public static final int kDriverControllerPort = 0;
   }
+  
+  public static class ShooterConstants {
+    public static final int kBeamBreaker1Port = 0;
+    public static final int kBeamBreaker2Port = 0;
+    
+    public static final int kMotor1Port = 0;
+    public static final int kMotor2Port = 0;
+    public static final int kMotor3Port = 0;
+
+
+  }
 
   public static class ClimbConstants
   {
