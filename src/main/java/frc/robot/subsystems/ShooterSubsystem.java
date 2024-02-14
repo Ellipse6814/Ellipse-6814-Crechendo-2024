@@ -8,14 +8,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
-  /** Creates a new ShooterSubsystem. */
+  public static ShooterSubsystem instance;
+
+  public static ShooterSubsystem getInstance() {
+    if (instance == null)
+        instance = new ShooterSubsystem();
+    return instance;
+  }
+  
   private final DigitalInput beamBreaker1;
   private final DigitalInput beamBreaker2;
   
   private final CANSparkMax motor1;
   private final CANSparkMax motor2;
   private final CANSparkMax motor3;
- 
 
   public ShooterSubsystem() {
     beamBreaker1 = new DigitalInput(ShooterConstants.kBeamBreaker1Port);
