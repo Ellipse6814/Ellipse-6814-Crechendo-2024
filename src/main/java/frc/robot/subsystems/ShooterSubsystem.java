@@ -4,8 +4,13 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
   public static ShooterSubsystem instance;
@@ -25,11 +30,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public ShooterSubsystem() {
     beamBreaker1 = new DigitalInput(ShooterConstants.kBeamBreaker1Port);
-    beamBreaker1 = new DigitalInput(ShooterConstants.kBeamBreaker2Port);
+    beamBreaker2 = new DigitalInput(ShooterConstants.kBeamBreaker2Port);
 
     motor1 = new CANSparkMax(ShooterConstants.kMotor1Port, MotorType.kBrushless);    
     motor2 = new CANSparkMax(ShooterConstants.kMotor2Port, MotorType.kBrushless);
-    motor2 = new CANSparkMax(ShooterConstants.kMotor3Port, MotorType.kBrushless);
+    motor3 = new CANSparkMax(ShooterConstants.kMotor3Port, MotorType.kBrushless);
   }
 
   public void setMotor1(double speed){
