@@ -18,7 +18,29 @@ public final class Constants {
   public static class OIConstants {
     public static final int kDriverControllerPort = 0;
   }
+  
+  public static class ShooterConstants {
+    public static final int kBeamBreaker1Port = 0;
+    public static final int kBeamBreaker2Port = 0;
+    
+    public static final int kMotor1Port = 0;
+    public static final int kMotor2Port = 0;
+    public static final int kMotor3Port = 0;
 
+
+  }
+
+  public static class ClimbConstants
+  {
+    public static final int kRightMotorPort = 0;
+    public static final int kLeftMotorPort = 0;
+
+    public static final double kp = 0.0;
+    public static final double ki = 0.0;
+    public static final double kd = 0.0;
+    public static final double encoderTicks2Meters = 0.0;
+  }
+  
   public static final class DriveConstants {
 
         public static final double kTrackWidth = edu.wpi.first.math.util.Units.inchesToMeters(25.125);
@@ -91,5 +113,4 @@ public final class Constants {
                         kMaxAngularSpeedRadiansPerSecond,
                         kMaxAngularAccelerationRadiansPerSecondSquared);
     }
-
 }

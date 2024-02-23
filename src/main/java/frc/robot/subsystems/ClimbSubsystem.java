@@ -4,33 +4,47 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
+  public CANSparkMax leftMotor = new CANSparkMax(ClimbConstants.kLeftMotorPort, MotorType.kBrushless);
+  public CANSparkMax rightMotor = new CANSparkMax(ClimbConstants.kRightMotorPort, MotorType.kBrushless);
+  public RelativeEncoder leftEncoder = leftMotor.getEncoder();
+  public RelativeEncoder rightEncoder = rightMotor.getEncoder();
+
+  public static ClimbSubsystem instance;
+
+  public static ClimbSubsystem getInstance() {
+    if (instance == null)
+        instance = new ClimbSubsystem();
+    return instance;
+  }
+
   /** Creates a new ExampleSubsystem. */
   public ClimbSubsystem() {
 
-
-
   }
 
-
-  public void setRightMotor1(double speed){
-
+  public void setRightMotor(double speed){
+    rightMotor.set(speed);
   }
 
   public void setLeftMotor(double speed){
-
-
+    leftMotor.set(speed);
   }
   
   public double getLeftEncoder(){
-    return 0.0;
+    return leftEncoder.getPosition();
   }
 
   public double getRightEncoder(){
-    return 0.0;
+    return rightEncoder.getPosition();
 
   }
 
