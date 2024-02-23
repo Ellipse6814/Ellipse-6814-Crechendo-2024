@@ -9,12 +9,12 @@ import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ShooterTrap extends Command {
+public class ShooterTrapCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_subsystem;
 
   
-  public ShooterTrap(ShooterSubsystem subsystem) {
+  public ShooterTrapCommand(ShooterSubsystem subsystem) {
     m_subsystem = subsystem;
   
     addRequirements(subsystem);

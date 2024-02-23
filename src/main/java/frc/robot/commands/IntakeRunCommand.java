@@ -9,12 +9,12 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class IntakeRun extends Command {
+public class IntakeRunCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem m_subsystem;
 
   
-  public IntakeRun(IntakeSubsystem subsystem) {
+  public IntakeRunCommand(IntakeSubsystem subsystem) {
     m_subsystem = subsystem;
   
     addRequirements(subsystem);
