@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,8 +26,10 @@ public class ShooterIntakeCommand extends Command {
  
   @Override
   public void initialize() {
-    m_shooterSubsystem.setMotor1(0);
-    m_intake.setspeed(0);
+    m_shooterSubsystem.setMotor1(-1 * Constants.ShooterConstants.kShooterIntakeSpeed);
+    m_shooterSubsystem.setMotor2(0);
+    m_shooterSubsystem.setMotor3(Constants.ShooterConstants.kShooterIntakeSpeed);
+    m_intake.setspeed(-1 * Constants.ShooterConstants.kShooterIntakeSpeed);
 
   }
 
