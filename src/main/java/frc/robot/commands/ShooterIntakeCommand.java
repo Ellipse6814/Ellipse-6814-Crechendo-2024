@@ -3,24 +3,32 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class ShooterIntakeCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ShooterSubsystem m_subsystem;
+  private final ShooterSubsystem m_shooterSubsystem;
+  private final IntakeSubsystem m_intake;
 
   
-  public ShooterIntakeCommand(ShooterSubsystem subsystem) {
-    m_subsystem = subsystem;
-  
-    addRequirements(subsystem);
+  public ShooterIntakeCommand(ShooterSubsystem shooter, IntakeSubsystem intake) {
+    m_shooterSubsystem = shooter;
+    
+    m_intake = intake;
+
+    addRequirements(shooter, intake);
   }
 
  
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_shooterSubsystem.setMotor1(0);
+    m_intake.setspeed(0);
+
+  }
 
 
   @Override

@@ -20,6 +20,8 @@ public final class Constants {
   }
   
   public static class ShooterConstants {
+    public static final double kShooterIntakeSpeed = 0.0;
+
     public static final int kBeamBreaker1Port = 0;
     public static final int kBeamBreaker2Port = 0;
     
