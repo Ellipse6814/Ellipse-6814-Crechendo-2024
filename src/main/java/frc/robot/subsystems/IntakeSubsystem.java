@@ -4,8 +4,12 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ShooterConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
   public static IntakeSubsystem instance;
@@ -15,17 +19,17 @@ public class IntakeSubsystem extends SubsystemBase {
         instance = new IntakeSubsystem();
     return instance;
   }
+  public CANSparkMax motor;
 
   /** Creates a new ExampleSubsystem. */
   public IntakeSubsystem() {
-
-
-
+    motor = new CANSparkMax(ShooterConstants.kIntakeMotorPort, MotorType.kBrushless);
+    motor.setInverted(ShooterConstants.kIntakeMotorInverted);
   }
 
 
   public void setspeed(double speed){
-
+    
   }
 
   

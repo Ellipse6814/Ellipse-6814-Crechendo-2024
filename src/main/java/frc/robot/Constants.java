@@ -21,6 +21,7 @@ public final class Constants {
   
   public static class ShooterConstants {
     public static final double kShooterIntakeSpeed = 0.0;
+    public static final double kShooterSpeakerAmpSpeed = 0.0;
 
     public static final int kBeamBreaker1Port = 0;
     public static final int kBeamBreaker2Port = 0;
@@ -28,8 +29,13 @@ public final class Constants {
     public static final int kMotor1Port = 0;
     public static final int kMotor2Port = 0;
     public static final int kMotor3Port = 0;
+    public static final int kIntakeMotorPort = 0;
 
-
+    //clockwise is positive:
+    public static final boolean kMotor1Inverted = false;
+    public static final boolean kMotor2Inverted = false;
+    public static final boolean kMotor3Inverted = false;
+    public static final boolean kIntakeMotorInverted = false;
   }
 
   public static class ClimbConstants
