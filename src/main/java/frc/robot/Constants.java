@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -43,6 +44,17 @@ public final class Constants {
     public static final double encoderTicks2Meters = 0.0;
   }
   
+  public static final class ModuleConstants {
+        public static final double kWheelDiameterMeters = Units.inchesToMeters(3.75);  
+        public static final double kDriveMotorGearRatio = 1 / 6.75;
+        public static final double kTurningMotorGearRatio = 1 / (150.0/7);
+        public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
+        public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
+        public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
+        public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
+        public static final double kPTurning = 0.5;
+    }
+
   public static final class DriveConstants {
 
         public static final double kTrackWidth = edu.wpi.first.math.util.Units.inchesToMeters(25.125);

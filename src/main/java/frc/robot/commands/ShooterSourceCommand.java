@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -11,13 +12,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 /** An example command that uses an example subsystem. */
 public class ShooterSourceCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ShooterSubsystem m_subsystem;
+  private final ShooterSubsystem m_shooterSubsystem;
 
   
-  public ShooterSourceCommand(ShooterSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public ShooterSourceCommand(ShooterSubsystem shooter) {
+    m_shooterSubsystem = shooter;
   
-    addRequirements(subsystem);
+    addRequirements(shooter);
   }
 
  
@@ -26,7 +27,12 @@ public class ShooterSourceCommand extends Command {
 
 
   @Override
-  public void execute() {}
+  public void execute() {
+    m_shooterSubsystem.setMotor1(-1 * Constants.ShooterConstants.kShooterIntakeSpeed);
+    m_shooterSubsystem.setMotor2(Constants.ShooterConstants.kShooterIntakeSpeed);
+    m_shooterSubsystem.setMotor3(-1 * Constants.ShooterConstants.kShooterIntakeSpeed);
+
+  }
 
   
   @Override
