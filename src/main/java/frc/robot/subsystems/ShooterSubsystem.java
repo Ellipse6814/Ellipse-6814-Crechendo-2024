@@ -36,7 +36,9 @@ public class ShooterSubsystem extends SubsystemBase {
     motor2 = new CANSparkMax(ShooterConstants.kMotor2Port, MotorType.kBrushless);
     motor3 = new CANSparkMax(ShooterConstants.kMotor3Port, MotorType.kBrushless);
 
-    
+    motor1.setInverted(ShooterConstants.kMotor1Inverted);
+    motor2.setInverted(ShooterConstants.kMotor2Inverted);
+    motor3.setInverted(ShooterConstants.kMotor3Inverted);
   }
 
   public void setMotor1(double speed){
