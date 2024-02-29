@@ -10,13 +10,13 @@ import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ShooterSpeakerAmpCommand extends Command {
+public class ShooterSpeakerAmpTrapCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooter;
   private final IntakeSubsystem m_intake;
 
   
-  public ShooterSpeakerAmpCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
+  public ShooterSpeakerAmpTrapCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
     m_shooter = shooterSubsystem;
     m_intake = intakeSubsystem;
   

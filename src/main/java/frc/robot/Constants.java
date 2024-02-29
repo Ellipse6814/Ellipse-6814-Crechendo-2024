@@ -22,6 +22,7 @@ public final class Constants {
   
   public static class ShooterConstants {
     public static final double kShooterIntakeSpeed = 0.0;
+    public static final double kShooterSourceSpeed = 0.0;
     public static final double kShooterSpeakerAmpSpeed = 0.0;
 
     public static final int kBeamBreaker1Port = 0;

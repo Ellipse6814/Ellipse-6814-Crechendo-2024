@@ -28,9 +28,9 @@ public class ShooterSourceCommand extends Command {
 
   @Override
   public void execute() {
-    m_shooterSubsystem.setMotor1(-1 * Constants.ShooterConstants.kShooterIntakeSpeed);
-    m_shooterSubsystem.setMotor2(Constants.ShooterConstants.kShooterIntakeSpeed);
-    m_shooterSubsystem.setMotor3(-1 * Constants.ShooterConstants.kShooterIntakeSpeed);
+    m_shooterSubsystem.setMotor1(-1 * Constants.ShooterConstants.kShooterSourceSpeed);
+    m_shooterSubsystem.setMotor2(Constants.ShooterConstants.kShooterSourceSpeed);
+    m_shooterSubsystem.setMotor3(-1 * Constants.ShooterConstants.kShooterSourceSpeed);
 
   }
 
