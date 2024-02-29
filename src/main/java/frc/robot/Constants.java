@@ -49,6 +49,30 @@ public final class Constants {
     public static final double kd = 0.0;
     public static final double encoderTicks2Meters = 0.0;
   }
+
+  public static class ArmConstants
+  {
+    public static final int kArmMotor1Port = 0;
+    public static final int kArmMotor2Port = 0;
+
+    public static final double kp = 0.0;
+    public static final double ki = 0.0;
+    public static final double kd = 0.0;
+
+    //feedforward stuff
+    public static final double ks = 0.0;
+    public static final double kg = 0.0;
+    public static final double kv = 0.0;
+    public static final double kMaxVelocity = 0.0; //eli said this was max velocity idk
+
+    public static final double kEncoderTicks2Radians = 0.0;
+
+    //Change the influence of the PID controller and Feedforward controller
+    //ex. pidInfluence = 0.0; feedforwardInfluence = 1.0;   means 100% feedforward (pid is not used)
+    //    pidInfluence = 0.5; feedforwardInfluence = 0.5;   means half and half
+    public static final double kPIDInfluence = 0.0;
+    public static final double kFeedforwardInfluence = 0.0;
+  }
   
   public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(3.75);  
