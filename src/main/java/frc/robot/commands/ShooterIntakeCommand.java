@@ -13,7 +13,8 @@ public class ShooterIntakeCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooterSubsystem;
   private final IntakeSubsystem m_intake;
-
+  private boolean beamBreak;
+  private boolean commandDone;
   
   public ShooterIntakeCommand(ShooterSubsystem shooter, IntakeSubsystem intake) {
     m_shooterSubsystem = shooter;
@@ -26,16 +27,26 @@ public class ShooterIntakeCommand extends Command {
  
   @Override
   public void initialize() {
+    beamBreak = false;
+    commandDone = false;
+  }
+
+
+  @Override
+  public void execute() {
     m_shooterSubsystem.setMotor1(-1 * Constants.ShooterConstants.kShooterIntakeSpeed);
     m_shooterSubsystem.setMotor2(0);
     m_shooterSubsystem.setMotor3(Constants.ShooterConstants.kShooterIntakeSpeed);
     m_intake.setspeed(-1 * Constants.ShooterConstants.kShooterIntakeSpeed);
 
+    if(m_shooterSubsystem.getSensor1()){
+      beamBreak = true;
+    }
+
+    if(beamBreak && !m_shooterSubsystem.getSensor1()) {
+      commandDone = true;
+    }
   }
-
-
-  @Override
-  public void execute() {}
 
   
   @Override
@@ -44,6 +55,6 @@ public class ShooterIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return commandDone;
   }
 }
