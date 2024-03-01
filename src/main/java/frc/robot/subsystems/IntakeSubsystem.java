@@ -32,7 +32,10 @@ public class IntakeSubsystem extends SubsystemBase {
     
   }
 
-  
+  public void stop()
+  {
+    motor.set(0);
+  }
 
 
   @Override

@@ -21,16 +21,18 @@ public final class Constants {
   }
   
   public static class ShooterConstants {
+    //motors assume that a negative value is clockwise direction,
+    //so values should generally be negative
     public static final double kShooterIntakeSpeed = 0.0;
-    public static final double kShooterSourceSpeed = 0.0;
+    public static final double kShooterSourceSpeed = 0.2;
     public static final double kShooterSpeakerAmpSpeed = 0.0;
 
-    public static final int kBeamBreaker1Port = 0;
-    public static final int kBeamBreaker2Port = 0;
+    public static final int kBeamBreaker1Port = 8;
+    public static final int kBeamBreaker2Port = 9;
     
-    public static final int kMotor1Port = 0;
-    public static final int kMotor2Port = 0;
-    public static final int kMotor3Port = 0;
+    public static final int kMotor1Port = 11;
+    public static final int kMotor2Port = 9;
+    public static final int kMotor3Port = 13;
     public static final int kIntakeMotorPort = 0;
 
     //clockwise is positive:
