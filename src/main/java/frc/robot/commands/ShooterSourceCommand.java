@@ -13,12 +13,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class ShooterSourceCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooterSubsystem;
+  private final IntakeSubsystem m_intakeSubsystem;
 
   
-  public ShooterSourceCommand(ShooterSubsystem shooter) {
+  public ShooterSourceCommand(ShooterSubsystem shooter, IntakeSubsystem intake) {
     m_shooterSubsystem = shooter;
+    m_intakeSubsystem = intake;
   
-    addRequirements(shooter);
+    addRequirements(shooter, intake);
   }
 
  
@@ -31,7 +33,7 @@ public class ShooterSourceCommand extends Command {
     m_shooterSubsystem.setMotor1(-1 * Constants.ShooterConstants.kShooterSourceSpeed);
     m_shooterSubsystem.setMotor2(Constants.ShooterConstants.kShooterSourceSpeed);
     m_shooterSubsystem.setMotor3(-1 * Constants.ShooterConstants.kShooterSourceSpeed);
-
+    m_intakeSubsystem.setspeed(0);
   }
 
   
