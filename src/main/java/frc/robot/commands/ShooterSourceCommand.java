@@ -38,13 +38,23 @@ public class ShooterSourceCommand extends Command {
   public void execute() {
     SmartDashboard.putBoolean("beambreak1", m_shooterSubsystem.getSensor1());
     SmartDashboard.putBoolean("beambreak2", m_shooterSubsystem.getSensor2());
-    m_shooterSubsystem.setMotor1(-1 * 0.07);  ///NOTE FOR TOMORROW: motor 1 needs more, motor 2 needs more, keep motor 3
+    //m_shooterSubsystem.setMotor1(-1 * 0.08);  ///NOTE FOR TOMORROW: motor 3 might be ok, but may need more, motor 2 needs more, keep motor 1
     m_shooterSubsystem.setMotor2(0.6);
-    m_shooterSubsystem.setMotor3(-1 * 0.25);
+    m_shooterSubsystem.setMotor3(-1 * 0.4);
     m_intakeSubsystem.setspeed(0);
 
     if(m_shooterSubsystem.getSensor1()){
       beamBreak = true;
+    }
+
+    //Speed up motor1 until first beambreak is hit
+    if(beamBreak)
+    {
+      m_shooterSubsystem.setMotor1(-1 * 0.037);
+    }
+    else
+    {
+      m_shooterSubsystem.setMotor1(-1 * 0.26);
     }
 
     if(beamBreak && !m_shooterSubsystem.getSensor1()) {

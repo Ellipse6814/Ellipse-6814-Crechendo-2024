@@ -8,20 +8,17 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /** An example command that uses an example subsystem. */
-public class ShooterSpeakerAmpTrapCommand extends Command {
+public class ShooterBackWheelCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooter;
-  private final IntakeSubsystem m_intake;
 
   
-  public ShooterSpeakerAmpTrapCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
+  public ShooterBackWheelCommand(ShooterSubsystem shooterSubsystem) {
     m_shooter = shooterSubsystem;
-    m_intake = intakeSubsystem;
   
-    addRequirements(shooterSubsystem, intakeSubsystem);
+    addRequirements(shooterSubsystem);
   }
 
  
@@ -31,17 +28,14 @@ public class ShooterSpeakerAmpTrapCommand extends Command {
 
   @Override
   public void execute() {
-    m_shooter.setMotor1(ShooterConstants.kShooterSpeakerAmpSpeed);
     m_shooter.setMotor2(ShooterConstants.kShooterSpeakerAmpSpeed);
     m_shooter.setMotor3(ShooterConstants.kShooterSpeakerAmpSpeed);
-    m_intake.setspeed(0);
   }
 
   
   @Override
   public void end(boolean interrupted) {
     m_shooter.stop();
-    m_intake.stop();
   }
 
   // Returns true when the command should end.

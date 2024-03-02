@@ -25,7 +25,7 @@ public final class Constants {
     //so values should generally be negative
     public static final double kShooterIntakeSpeed = 0.0;
     public static final double kShooterSourceSpeed = 0.2;
-    public static final double kShooterSpeakerAmpSpeed = 0.0;
+    public static final double kShooterSpeakerAmpSpeed = 1.0;
 
     public static final int kBeamBreaker1Port = 8;
     public static final int kBeamBreaker2Port = 9;
