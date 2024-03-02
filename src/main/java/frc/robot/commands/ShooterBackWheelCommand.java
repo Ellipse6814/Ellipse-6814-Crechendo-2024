@@ -29,7 +29,7 @@ public class ShooterBackWheelCommand extends Command {
   @Override
   public void execute() {
     m_shooter.setMotor2(ShooterConstants.kShooterSpeakerAmpSpeed);
-    //m_shooter.setMotor3(ShooterConstants.kShooterSpeakerAmpSpeed);
+    m_shooter.setMotor3(ShooterConstants.kShooterSpeakerAmpSpeed);
   }
 
   

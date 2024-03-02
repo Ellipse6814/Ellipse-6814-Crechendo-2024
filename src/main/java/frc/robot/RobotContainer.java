@@ -39,7 +39,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     new JoystickButton(joystick, 1).onTrue(new ShooterSourceCommand(m_shooterSubsystem, m_intakeSubsystem));
-    new JoystickButton(joystick, 2).onTrue(new ShooterBackWheelCommand(m_shooterSubsystem).raceWith(new WaitCommand(0.4)).andThen(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem)));
+    new JoystickButton(joystick, 2).onTrue(new ShooterBackWheelCommand(m_shooterSubsystem).raceWith(new WaitCommand(1.0)).andThen(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem)));
   }
 
   /**

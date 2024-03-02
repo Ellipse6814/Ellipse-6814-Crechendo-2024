@@ -32,7 +32,7 @@ public class ShooterSpeakerAmpTrapCommand extends Command {
   @Override
   public void execute() {
     m_shooter.setMotor1(ShooterConstants.kShooterSpeakerAmpSpeed);
-    //m_shooter.setMotor2(ShooterConstants.kShooterSpeakerAmpSpeed);
+    m_shooter.setMotor2(ShooterConstants.kShooterSpeakerAmpSpeed);
     m_shooter.setMotor3(ShooterConstants.kShooterSpeakerAmpSpeed);
     m_intake.setspeed(0);
   }
