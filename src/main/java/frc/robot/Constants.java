@@ -55,26 +55,28 @@ public final class Constants {
 
   public static class ArmConstants
   {
-    public static final int kArmMotor1Port = 0;
-    public static final int kArmMotor2Port = 0;
+    public static final int kArmMotor1Port = 16;
+    public static final int kArmMotor2Port = 17;
 
-    public static final double kp = 0.0;
+    public static final double kp = 0.5;
     public static final double ki = 0.0;
     public static final double kd = 0.0;
 
     //feedforward stuff
-    public static final double ks = 0.0;
-    public static final double kg = 0.0;
-    public static final double kv = 0.0;
-    public static final double kMaxVelocity = 0.0; //eli said this was max velocity idk
+    public static final double setpointOffset = 0; //For some reason, the arm thinks 0 degrees is 80 degrees
 
-    public static final double kEncoderTicks2Radians = 0.0;
+    public static final double ks = -0.02;
+    public static final double kg = 1.18;
+    public static final double kv = 1.24;
+    public static final double kMaxVelocity = 0.025; //eli said this was max velocity idk
+
+    public static final double kEncoderTicks2Radians = Math.toRadians(360/73.5);
 
     //Change the influence of the PID controller and Feedforward controller
     //ex. pidInfluence = 0.0; feedforwardInfluence = 1.0;   means 100% feedforward (pid is not used)
     //    pidInfluence = 0.5; feedforwardInfluence = 0.5;   means half and half
-    public static final double kPIDInfluence = 0.0;
-    public static final double kFeedforwardInfluence = 0.0;
+    public static final double kPIDInfluence = 0.5;
+    public static final double kFeedforwardInfluence = 0.3;
   }
   
   public static final class ModuleConstants {

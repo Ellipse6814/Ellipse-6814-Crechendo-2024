@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ArmRaiseCommand;
 import frc.robot.commands.ShooterBackWheelCommand;
 import frc.robot.commands.ShooterSourceCommand;
 import frc.robot.commands.ShooterSpeakerAmpTrapCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
@@ -27,6 +30,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  public final ArmSubsystem m_armSubsystem = new ArmSubsystem();
 
   private final Joystick joystick = new Joystick(0);
 
@@ -38,8 +42,11 @@ public class RobotContainer {
 
 
   private void configureBindings() {
+    m_armSubsystem.resetEncoders(); //probably move this somewhere else 
+
     new JoystickButton(joystick, 1).onTrue(new ShooterSourceCommand(m_shooterSubsystem, m_intakeSubsystem));
     new JoystickButton(joystick, 2).onTrue(new ShooterBackWheelCommand(m_shooterSubsystem).raceWith(new WaitCommand(1.0)).andThen(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem)));
+    new JoystickButton(joystick, 3).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(10 - ArmConstants.setpointOffset)));
   }
 
   /**
