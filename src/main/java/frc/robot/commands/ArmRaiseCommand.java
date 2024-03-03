@@ -8,6 +8,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
@@ -37,7 +38,7 @@ public class ArmRaiseCommand extends Command {
     double currentdistance = m_subsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians;
     
     //calculate outputs from pid and feedforward
-    double pidOutput = pidController.calculate(currentdistance);
+    double pidOutput = pidController.calculate(currentdistance, setpoint);
     double feedforwardOutput = feedforward.calculate(setpoint, ArmConstants.kMaxVelocity);
 
     //add pid and feedforward outputs
@@ -45,6 +46,8 @@ public class ArmRaiseCommand extends Command {
 
     //kablooey
     m_subsystem.setMotors(setspeed);
+
+    SmartDashboard.putNumber("setpoint77777", setpoint);
   }
 
   
