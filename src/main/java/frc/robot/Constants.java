@@ -23,7 +23,7 @@ public final class Constants {
   public static class ShooterConstants {
     //motors assume that a negative value is clockwise direction,
     //so values should generally be negative
-    public static final double kShooterIntakeSpeed = 0.0;
+    public static final double kShooterIntakeSpeed = 0.4;
     public static final double kShooterSourceSpeed = 0.2;
     public static final double kShooterSpeakerAmpSpeed = 1.0;
 
@@ -33,7 +33,7 @@ public final class Constants {
     public static final int kMotor1Port = 11;
     public static final int kMotor2Port = 9;
     public static final int kMotor3Port = 13;
-    public static final int kIntakeMotorPort = 0;
+    public static final int kIntakeMotorPort = 14;
 
     //clockwise is positive:
     public static final boolean kMotor1Inverted = false;
@@ -58,25 +58,24 @@ public final class Constants {
     public static final int kArmMotor1Port = 16;
     public static final int kArmMotor2Port = 17;
 
-    public static final double kp = 0.5;
+    public static final double kp = 0.65;
     public static final double ki = 0.0;
-    public static final double kd = 0.0;
+    public static final double kd = 0.05;
 
     //feedforward stuff
-    public static final double setpointOffset = 0; //For some reason, the arm thinks 0 degrees is 80 degrees
-
     public static final double ks = -0.02;
     public static final double kg = 1.18;
     public static final double kv = 1.24;
     public static final double kMaxVelocity = 0.025; //eli said this was max velocity idk
 
-    public static final double kEncoderTicks2Radians = Math.toRadians(360/73.5);
+    public static final double kEncoderRotationsToRotations = 1/1;
+    public static final double kEncoderTicks2Radians = kEncoderRotationsToRotations * Math.toRadians(360) * (1/73.5);
 
     //Change the influence of the PID controller and Feedforward controller
     //ex. pidInfluence = 0.0; feedforwardInfluence = 1.0;   means 100% feedforward (pid is not used)
     //    pidInfluence = 0.5; feedforwardInfluence = 0.5;   means half and half
-    public static final double kPIDInfluence = 0.5;
-    public static final double kFeedforwardInfluence = 0.3;
+    public static final double kPIDInfluence = 0.9;
+    public static final double kFeedforwardInfluence = 0.1;
   }
   
   public static final class ModuleConstants {

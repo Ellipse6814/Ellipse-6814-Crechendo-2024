@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 /** An example command that uses an example subsystem. */
 public class ArmRaiseCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ArmSubsystem m_subsystem;
+  private final ArmSubsystem armSubsystem;
 
   private double setpoint;
 
@@ -22,7 +22,7 @@ public class ArmRaiseCommand extends Command {
   private ArmFeedforward feedforward = new ArmFeedforward(ArmConstants.ks, ArmConstants.kg, ArmConstants.kv);
   
   public ArmRaiseCommand(ArmSubsystem armSubsystem, double setpoint) {
-    m_subsystem = armSubsystem;
+    this.armSubsystem = armSubsystem;
     this.setpoint = setpoint; 
 
     addRequirements(armSubsystem);
@@ -30,29 +30,35 @@ public class ArmRaiseCommand extends Command {
 
  
   @Override
-  public void initialize() {}
+  public void initialize() {
+    armSubsystem.resetEncoders();
+  }
 
 
   @Override
   public void execute() {
-    double currentdistance = m_subsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians;
+    double currentdistance = armSubsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians;
     
     //calculate outputs from pid and feedforward
     double pidOutput = pidController.calculate(currentdistance, setpoint);
     double feedforwardOutput = feedforward.calculate(setpoint, ArmConstants.kMaxVelocity);
 
     //add pid and feedforward outputs
-    double setspeed = (ArmConstants.kPIDInfluence * pidOutput) + (ArmConstants.kFeedforwardInfluence * feedforwardOutput);
+    double setspeed = (ArmConstants.kPIDInfluence * pidOutput * 2) + (ArmConstants.kFeedforwardInfluence * feedforwardOutput);
 
     //kablooey
-    m_subsystem.setMotors(setspeed);
+    armSubsystem.setMotors(setspeed);
 
     SmartDashboard.putNumber("setpoint77777", setpoint);
+    SmartDashboard.putNumber("pid output", pidOutput);
+    SmartDashboard.putNumber("feedforward output", feedforwardOutput);
   }
 
   
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    armSubsystem.setMotors(0);
+  }
 
   // Returns true when the command should end.
   @Override
