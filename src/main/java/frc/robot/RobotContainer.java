@@ -35,7 +35,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final ArmSubsystem m_armSubsystem = new ArmSubsystem(); 
 
-  private final Joystick joystick = new Joystick(0);
+  private final Joystick joystick = new Joystick(3);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -47,8 +47,8 @@ public class RobotContainer {
   private void configureBindings() {
     // new JoystickButton(joystick, 1).onTrue(new ShooterSourceCommand(m_shooterSubsystem, m_intakeSubsystem));
     // new JoystickButton(joystick, 2).onTrue(new ShooterBackWheelCommand(m_shooterSubsystem).raceWith(new WaitCommand(1.0)).andThen(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem)));
-    new JoystickButton(joystick, 3).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(60)));
-    //new JoystickButton(joystick, 4).onTrue(new ShooterIntakeCommand(m_shooterSubsystem, m_intakeSubsystem));
+    new JoystickButton(joystick, 3).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(50)));
+    new JoystickButton(joystick, 4).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(85)));
   }
 
   /**

@@ -17,7 +17,7 @@ public class ArmRaiseCommand extends Command {
   private final ArmSubsystem armSubsystem;
 
   private double setpoint;
-
+  
   private PIDController pidController = new PIDController(ArmConstants.kp, ArmConstants.ki, ArmConstants.kd);
   private ArmFeedforward feedforward = new ArmFeedforward(ArmConstants.ks, ArmConstants.kg, ArmConstants.kv);
   
@@ -31,7 +31,7 @@ public class ArmRaiseCommand extends Command {
  
   @Override
   public void initialize() {
-    armSubsystem.resetEncoders();
+    
   }
 
 
