@@ -8,6 +8,8 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmRaiseCommand;
 import frc.robot.commands.ShooterBackWheelCommand;
+import frc.robot.commands.ShooterIntakeBottomRollerCommand;
+import frc.robot.commands.ShooterIntakeCommand;
 import frc.robot.commands.ShooterSourceCommand;
 import frc.robot.commands.ShooterSpeakerAmpTrapCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -19,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,12 +31,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  public final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  public final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+  public final ArmSubsystem m_armSubsystem = new ArmSubsystem(); 
 
   private final Joystick joystick = new Joystick(0);
-
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -42,11 +45,10 @@ public class RobotContainer {
 
 
   private void configureBindings() {
-    m_armSubsystem.resetEncoders(); //probably move this somewhere else 
-
-    new JoystickButton(joystick, 1).onTrue(new ShooterSourceCommand(m_shooterSubsystem, m_intakeSubsystem));
-    new JoystickButton(joystick, 2).onTrue(new ShooterBackWheelCommand(m_shooterSubsystem).raceWith(new WaitCommand(1.0)).andThen(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem)));
-    new JoystickButton(joystick, 3).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(10 - ArmConstants.setpointOffset)));
+    // new JoystickButton(joystick, 1).onTrue(new ShooterSourceCommand(m_shooterSubsystem, m_intakeSubsystem));
+    // new JoystickButton(joystick, 2).onTrue(new ShooterBackWheelCommand(m_shooterSubsystem).raceWith(new WaitCommand(1.0)).andThen(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem)));
+    new JoystickButton(joystick, 3).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(60)));
+    //new JoystickButton(joystick, 4).onTrue(new ShooterIntakeCommand(m_shooterSubsystem, m_intakeSubsystem));
   }
 
   /**

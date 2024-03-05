@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.ArmConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -44,7 +45,12 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
-    SmartDashboard.putNumber("Encoder value", m_robotContainer.m_armSubsystem.getEncoderAverage());
+    SmartDashboard.putNumber("Encoder value rad", m_robotContainer.m_armSubsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians);
+    SmartDashboard.putNumber("Encoder value deg", Math.toDegrees(m_robotContainer.m_armSubsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians));
+    SmartDashboard.putNumber("Encoder value raw", m_robotContainer.m_armSubsystem.getEncoderAverage());
+
+    SmartDashboard.putBoolean("beambreak1 lmao", m_robotContainer.m_shooterSubsystem.getSensor1());
+    SmartDashboard.putBoolean("beambreak2 lmao", m_robotContainer.m_shooterSubsystem.getSensor2());
     CommandScheduler.getInstance().run();
   }
 
