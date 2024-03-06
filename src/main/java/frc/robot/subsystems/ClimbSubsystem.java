@@ -63,7 +63,7 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public boolean limitSwitches(){
-    return limitSwitch1 || limitSwitch2 || limitSwitch3 || limitSwitch4;
+    return limitSwitch1.get() || limitSwitch2.get() || limitSwitch3.get() || limitSwitch4.get();
   }
 
   @Override
