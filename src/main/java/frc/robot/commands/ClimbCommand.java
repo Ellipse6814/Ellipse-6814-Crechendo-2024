@@ -26,13 +26,15 @@ public class ClimbCommand extends Command {
 
  
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_subsystem.resetEncoders();
+  }
 
 
   @Override
   public void execute() {
-    double leftError = pidController.calculate(m_subsystem.getLeftEncoder() * ClimbConstants.encoderTicks2Meters, leftSetpoint);
-    double rightError = pidController.calculate(m_subsystem.getRightEncoder() * ClimbConstants.encoderTicks2Meters, rightSetpoint);
+    double leftSpeed = pidController.calculate(m_subsystem.getLeftEncoder() * ClimbConstants.encoderTicks2Meters, leftSetpoint);
+    double rightSpeed = pidController.calculate(m_subsystem.getRightEncoder() * ClimbConstants.encoderTicks2Meters, rightSetpoint);
 
     m_subsystem.setLeftMotor(leftError);
     m_subsystem.setRightMotor(rightError);
@@ -45,6 +47,6 @@ public class ClimbCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_subsystem.limitSwitches();
   }
 }
