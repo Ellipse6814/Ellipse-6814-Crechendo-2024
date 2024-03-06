@@ -47,6 +47,11 @@ public final class Constants {
     public static final int kRightMotorPort = 0;
     public static final int kLeftMotorPort = 0;
 
+    public static final int kLimitSwitchPort1 = 0;
+    public static final int kLimitSwitchPort2 = 0;
+    public static final int kLimitSwitchPort3 = 0;
+    public static final int kLimitSwitchPort4 = 0;
+
     public static final double kp = 0.0;
     public static final double ki = 0.0;
     public static final double kd = 0.0;
