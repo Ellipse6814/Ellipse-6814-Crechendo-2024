@@ -28,27 +28,17 @@ public class ShooterIntakeCommand extends Command {
  
   @Override
   public void initialize() {
-    beamBreak = false;
-    commandDone = false;
   }
 
 
   @Override
   public void execute() {
-    m_shooterSubsystem.setMotor1(-1 * 0.4);
+    m_shooterSubsystem.setMotor1(Constants.ShooterConstants.kShooterIntakeSpeed);
     m_shooterSubsystem.setMotor2(0);
-    m_shooterSubsystem.setMotor3(Constants.ShooterConstants.kShooterIntakeSpeed);
+    m_shooterSubsystem.setMotor3(0);
     m_intake.setspeed(-1 * Constants.ShooterConstants.kShooterIntakeSpeed);
 
-    if(m_shooterSubsystem.getSensor1()){
-      beamBreak = true;
-    }
-    
-    if(beamBreak && !m_shooterSubsystem.getSensor1()) {
-      commandDone = true;
-    }
-    SmartDashboard.putBoolean("commanad is doney done", commandDone);
-    SmartDashboard.putBoolean("beam breaker was tripped at least once", beamBreak);
+
   }
 
   @Override
@@ -60,6 +50,6 @@ public class ShooterIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return commandDone;
+    return m_shooterSubsystem.getSensor1;
   }
 }
