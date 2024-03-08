@@ -6,38 +6,35 @@ package frc.robot.commands;
 
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.ClimbSubsystem;
+
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ClimbCommand extends Command {
+public class ClimbCommandJoystick extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ClimbSubsystem m_subsystem;
 
-  private final double leftSetpoint, rightSetpoint;
-  private final PIDController pidController = new PIDController(ClimbConstants.kp, ClimbConstants.ki, ClimbConstants.kd);
+  private final double leftMotorSet, rightMotorSet;
   
-  public ClimbCommand(ClimbSubsystem subsystem, double leftSetpoint, double rightSetpoint) {
+  public ClimbCommandJoystick(ClimbSubsystem subsystem, Supplier<Double> leftMotorSet, Supplier<Double> rightMotorSet) {
     m_subsystem = subsystem;
-    this.leftSetpoint = leftSetpoint;
-    this.rightSetpoint = rightSetpoint;
+    this.leftMotorSet = leftMotorSet.get();
+    this.rightMotorSet = rightMotorSet.get();
     addRequirements(subsystem);
   }
 
- 
+
   @Override
-  public void initialize() {
-    m_subsystem.resetEncoders();
-  }
+  public void initialize() {}
 
 
   @Override
   public void execute() {
-    double leftSpeed = pidController.calculate(m_subsystem.getLeftEncoder() * ClimbConstants.kEncoderTicks2In, leftSetpoint);
-    double rightSpeed = pidController.calculate(m_subsystem.getRightEncoder() * ClimbConstants.kEncoderTicks2In, rightSetpoint);
-
-    m_subsystem.setLeftMotor(leftSpeed);
-    m_subsystem.setRightMotor(rightSpeed);
+    m_subsystem.setLeftMotor(leftMotorSet * 0.3);
+    m_subsystem.setRightMotor(rightMotorSet * 0.3);
   }
 
   
@@ -47,6 +44,6 @@ public class ClimbCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.limitSwitches();
+    return false;
   }
 }

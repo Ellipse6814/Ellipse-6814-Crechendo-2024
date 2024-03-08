@@ -15,6 +15,10 @@ import frc.robot.commands.ShooterSpeakerAmpTrapCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ClimbCommandJoystick;
+import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -34,12 +38,18 @@ public class RobotContainer {
   public final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final ArmSubsystem m_armSubsystem = new ArmSubsystem(); 
+  private final IntakeSubsystem m_exampleSubsystem = new IntakeSubsystem();
+
+  private final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
+
+  private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
 
   private final Joystick joystick = new Joystick(0);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    m_ClimbSubsystem.setDefaultCommand(new ClimbCommandJoystick(m_ClimbSubsystem, () -> driverJoytick.getRawAxis(2) * 0.3, () -> driverJoytick.getRawAxis(4) * 0.3));
     configureBindings();
   }
 

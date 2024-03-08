@@ -47,10 +47,18 @@ public final class Constants {
     public static final int kRightMotorPort = 0;
     public static final int kLeftMotorPort = 0;
 
+    public static final int kLimitSwitchPort1 = 0;
+    public static final int kLimitSwitchPort2 = 0;
+    public static final int kLimitSwitchPort3 = 0;
+    public static final int kLimitSwitchPort4 = 0;
+
     public static final double kp = 0.0;
     public static final double ki = 0.0;
     public static final double kd = 0.0;
-    public static final double encoderTicks2Meters = 0.0;
+    public static final double kEncoderTicks2Rot = 1/42;
+    public static final double kMotorRot2ShaftRot = 1/3;
+    public static final double kShaftRot2In = 1 / 12;
+    public static final double kEncoderTicks2In = kEncoderTicks2Rot * kMotorRot2ShaftRot * kShaftRot2In;
   }
 
   public static class ArmConstants
@@ -68,7 +76,7 @@ public final class Constants {
     public static final double kv = 1.24;
     public static final double kMaxVelocity = 0.025; //eli said this was max velocity idk
 
-    public static final double kEncoderRotationsToRotations = 1/1;
+    public static final double kEncoderRotationsToRotations = 254/254;
     public static final double kEncoderTicks2Radians = kEncoderRotationsToRotations * Math.toRadians(360) * (1/73.5);
 
     //Change the influence of the PID controller and Feedforward controller
