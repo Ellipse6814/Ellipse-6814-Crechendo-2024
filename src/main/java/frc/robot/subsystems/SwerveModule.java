@@ -19,12 +19,19 @@ import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
+import com.revrobotics.CANSparkFlex;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+
 public class SwerveModule {
 
 
-    private final TalonFX driveMotor;
-    private final TalonFX turningMotor;
+    private final CANSparkFlex driveMotor;
+    private final CANSparkFlex turningMotor;
 
+    private final RelativeEncoder driveEncoder;
+    private final RelativeEncoder turningEncoder;
     private final PIDController turningPidController;
 
     
@@ -38,13 +45,17 @@ public class SwerveModule {
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
         absoluteEncoder = new CANcoder(absoluteEncoderId);
-        driveMotor = new TalonFX(driveMotorId);
-        turningMotor = new TalonFX(turningMotorId);
+        driveMotor = new CANSparkFlex(driveMotorId, MotorType.kBrushless);
+        turningMotor = new CANSparkFlex(turningMotorId, MotorType.kBrushless);
         
+        
+
         driveMotor.setInverted(driveMotorReversed);
         turningMotor.setInverted(turningMotorReversed);
-
-
+        
+        driveEncoder = driveMotor.getEncoder();
+        turningEncoder = turningMotor.getEncoder();
+        
 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
@@ -57,20 +68,20 @@ public class SwerveModule {
 
     public double getDrivePosition() {
        
-        return driveMotor.getPosition().getValue() * ModuleConstants.kDriveEncoderRot2Meter;
+        return driveEncoder.getPosition() * ModuleConstants.kDriveEncoderRot2Meter;
         
     }
 
     public double getTurningPosition() {
-        return turningMotor.getPosition().getValue() * ModuleConstants.kTurningEncoderRot2Rad;
+        return turningEncoder.getPosition() * ModuleConstants.kTurningEncoderRot2Rad;
     }
 
     public double getDriveVelocity() {
-        return driveMotor.getVelocity().getValue() * ModuleConstants.kDriveEncoderRPM2MeterPerSec;
+        return driveEncoder.getVelocity() * ModuleConstants.kDriveEncoderRPM2MeterPerSec;
     }
 
     public double getTurningVelocity() {
-        return turningMotor.getVelocity().getValue() * ModuleConstants.kTurningEncoderRPM2RadPerSec;
+        return turningEncoder.getVelocity() * ModuleConstants.kTurningEncoderRPM2RadPerSec;
     }
 
     public double getAbsoluteEncoderRad() {
@@ -82,8 +93,8 @@ public class SwerveModule {
     }
 
     public void resetEncoders() {   
-        driveMotor.setPosition(0);
-        turningMotor.setPosition(getAbsoluteEncoderRad()/Constants.ModuleConstants.kTurningEncoderRot2Rad);
+        driveEncoder.setPosition(0);
+        turningEncoder.setPosition(getAbsoluteEncoderRad()/Constants.ModuleConstants.kTurningEncoderRot2Rad);
     }
     
     public SwerveModuleState getState() {
