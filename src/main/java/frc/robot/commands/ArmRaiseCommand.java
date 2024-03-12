@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,13 +18,14 @@ public class ArmRaiseCommand extends Command {
   private final ArmSubsystem armSubsystem;
 
   private double setpoint;
-
   private PIDController pidController = new PIDController(ArmConstants.kp, ArmConstants.ki, ArmConstants.kd);
   private ArmFeedforward feedforward = new ArmFeedforward(ArmConstants.ks, ArmConstants.kg, ArmConstants.kv);
   
   public ArmRaiseCommand(ArmSubsystem armSubsystem, double setpoint) {
     this.armSubsystem = armSubsystem;
     this.setpoint = setpoint; 
+    
+
 
     addRequirements(armSubsystem);
   }
@@ -31,7 +33,9 @@ public class ArmRaiseCommand extends Command {
  
   @Override
   public void initialize() {
-    armSubsystem.resetEncoders();
+    armSubsystem.motor1.setInverted(true);
+    armSubsystem.motor2.setInverted(false);
+   
   }
 
 
@@ -44,10 +48,13 @@ public class ArmRaiseCommand extends Command {
     double feedforwardOutput = feedforward.calculate(setpoint, ArmConstants.kMaxVelocity);
 
     //add pid and feedforward outputs
-    double setspeed = (ArmConstants.kPIDInfluence * pidOutput * 2) + (ArmConstants.kFeedforwardInfluence * feedforwardOutput);
+    double setspeed = (ArmConstants.kPIDInfluence * pidOutput) + (ArmConstants.kFeedforwardInfluence * feedforwardOutput);
 
     //kablooey
-    armSubsystem.setMotors(setspeed);
+    //if(intake.getCurrentCommand() == null){
+      armSubsystem.setMotors(setspeed);
+    //}
+    
 
     SmartDashboard.putNumber("setpoint77777", setpoint);
     SmartDashboard.putNumber("pid output", pidOutput);

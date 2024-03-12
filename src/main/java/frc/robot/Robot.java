@@ -48,7 +48,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Encoder value rad", m_robotContainer.m_armSubsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians);
     SmartDashboard.putNumber("Encoder value deg", Math.toDegrees(m_robotContainer.m_armSubsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians));
     SmartDashboard.putNumber("Encoder value raw", m_robotContainer.m_armSubsystem.getEncoderAverage());
-
     SmartDashboard.putBoolean("beambreak1 lmao", m_robotContainer.m_shooterSubsystem.getSensor1());
     SmartDashboard.putBoolean("beambreak2 lmao", m_robotContainer.m_shooterSubsystem.getSensor2());
     CommandScheduler.getInstance().run();
