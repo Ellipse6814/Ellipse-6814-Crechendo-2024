@@ -18,6 +18,7 @@ public class ArmSubsystem extends SubsystemBase {
   public RelativeEncoder motor2Encoder = motor2.getEncoder();
 
   public static ArmSubsystem instance;
+  
 
   public static ArmSubsystem getInstance() {
     if (instance == null)
@@ -47,6 +48,7 @@ public class ArmSubsystem extends SubsystemBase {
   public double getEncoderAverage()
   {
     return (motor1Encoder.getPosition() + motor2Encoder.getPosition()) / 2;
+    
   }
   
   public void resetEncoders()
@@ -55,6 +57,8 @@ public class ArmSubsystem extends SubsystemBase {
     motor2Encoder.setPosition(0);
   }
 
+
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
