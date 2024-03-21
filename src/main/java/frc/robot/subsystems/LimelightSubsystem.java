@@ -8,6 +8,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class LimelightSubsystem extends SubsystemBase {
     public static LimelightSubsystem instance;
+    private static final double[] defaultArray = new double[] { 6814.6814, 6814.6814, 6814.6814, 6814.6814, 6814.6814, 6814.6814 };
 
     public static LimelightSubsystem getInstance() {
       if (instance == null)
@@ -17,13 +18,17 @@ public class LimelightSubsystem extends SubsystemBase {
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry botpose = table.getEntry("botpose");
+    NetworkTableEntry redBotpose = table.getEntry("botpose_wpired");
 
     public LimelightSubsystem () {
     }
 
     public double getBotPoseTableEntry(int index) {
         // Index 0 is x, Index 1 is y, Index 5 is yaw
-        return botpose.getDoubleArray(new double[6])[index];
+        return botpose.getDoubleArray(defaultArray)[index];
     }
-
+    public double getRedBotPose(int index) {
+        // Index 0 is x, Index 1 is y, Index 5 is yaw
+        return redBotpose.getDoubleArray(defaultArray)[index];
+    }
 }

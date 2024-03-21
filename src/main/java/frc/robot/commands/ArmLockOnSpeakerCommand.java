@@ -5,7 +5,9 @@
 package frc.robot.commands;
 
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,19 +17,26 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class ArmLockOnSpeakerCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ArmSubsystem armSubsystem;
+  private final LimelightSubsystem limelightSubsystem;
 
   private double setpoint;
-  //WARNING: WE PROBABLY NEED A SUBSYSTEM OR SOMETHING IDK TO GET THESE VALUES WITH LIMELIGHT IDK HELP ME GRRRR
+
+  private final double speakerXPos; //limelight field coordinates
+  private final double speakerYPos;
   private double spkDistace;
   private double spkHeight;
 
-  private boolean limitArmTo90Degrees = false;
+  private boolean limitArmTo70Degrees = true;
 
   private PIDController pidController = new PIDController(ArmConstants.kp, ArmConstants.ki, ArmConstants.kd);
   private ArmFeedforward feedforward = new ArmFeedforward(ArmConstants.ks, ArmConstants.kg, ArmConstants.kv);
   
-  public ArmLockOnSpeakerCommand(ArmSubsystem armSubsystem) {
+  public ArmLockOnSpeakerCommand(ArmSubsystem armSubsystem, LimelightSubsystem limelightSubsystem) {
     this.armSubsystem = armSubsystem;
+    this.limelightSubsystem = limelightSubsystem;
+    speakerXPos = ShooterConstants.spkrX;
+    speakerYPos = ShooterConstants.spkrY;
+    spkHeight = ShooterConstants.spkrHeight;
 
     addRequirements(armSubsystem);
   }
@@ -41,14 +50,40 @@ public class ArmLockOnSpeakerCommand extends Command {
 
   @Override
   public void execute() {
+    //----Calculate distance to speaker----
+    double botX = limelightSubsystem.getBotPoseTableEntry(0); // get bot field position
+    double botY = limelightSubsystem.getBotPoseTableEntry(1);
+
+    double xDifference = botX - speakerXPos;
+    double yDifference = botY - speakerYPos;
+
+    spkDistace = Math.sqrt(xDifference*xDifference  +  yDifference*yDifference); //thank you pythagoras
+
+    double setpointDegrees = 6814;
+
+    //----Calculate arm rotation using speaker distance we just calculated up there above me look up there! woah!!----
     double currentArmRotation = armSubsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians;
 
-    //Crazy math from WolframAlpha
-    setpoint = 2 * (Math.atan((Math.sqrt(spkDistace*spkDistace  +  spkHeight * spkHeight) - spkDistace) / spkHeight) + Math.PI);
+    if(botX == 6814.6814 || botY == 6814.6814) //if limelight cannot see apriltag, set setpoint = 0
+    {
+      setpoint = 0;
+    }
+    else
+    {
+      //Crazy math from WolframAlpha
+      setpoint = (2 * (Math.atan((Math.sqrt(spkDistace*spkDistace  +  spkHeight * spkHeight) - spkDistace) / spkHeight) + Math.PI)) % Math.toRadians(360);
+      //setpoint = Math.atan2(yDifference, xDifference);  BAD DONT USE THIS
+      setpoint = Math.toRadians(40) - setpoint; //Because, when arm angle goes up, shooting angle goes down se we gotta reverse
+                             //this i am making no sense im tired pls help me >_<
+      setpointDegrees = Math.toDegrees(setpoint);
 
-    if(setpoint > 90 && limitArmTo90Degrees) { setpoint = 90; } //Limit just in case (disable this for testing)
-    SmartDashboard.putNumber("lock setpoint rad", setpoint);
-    SmartDashboard.putNumber("lock setpoint deg", setpoint * (180 / Math.PI));
+      if(setpointDegrees > 70 && limitArmTo70Degrees) { setpoint = Math.toRadians(70); } //Limit just in case (disable this for testing)
+      if(setpointDegrees < 0) { setpoint = 0; }
+
+      setpointDegrees = Math.toDegrees(setpoint); //for logging purposes
+    }
+
+    SmartDashboard.putNumber("lock setpoint deg", setpointDegrees);
     
     //calculate outputs from pid and feedforward
     double pidOutput = pidController.calculate(currentArmRotation, setpoint);
@@ -58,7 +93,7 @@ public class ArmLockOnSpeakerCommand extends Command {
     double setspeed = (ArmConstants.kPIDInfluence * pidOutput * 2) + (ArmConstants.kFeedforwardInfluence * feedforwardOutput);
 
     //kablooey
-    //armSubsystem.setMotors(setspeed);
+    armSubsystem.setMotors(setspeed);
   }
 
   

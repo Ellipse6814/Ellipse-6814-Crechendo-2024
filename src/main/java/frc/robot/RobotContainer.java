@@ -8,6 +8,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ArmLockOnSpeakerCommand;
 import frc.robot.commands.ArmRaiseCommand;
 import frc.robot.commands.ShooterBackWheelCommand;
 import frc.robot.commands.ShooterIntakeBottomRollerCommand;
@@ -15,8 +16,10 @@ import frc.robot.commands.ShooterIntakeCommand;
 import frc.robot.commands.ShooterSourceCommand;
 import frc.robot.commands.ShooterSpeakerAmpTrapCommand;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.commands.SwerveJoystickLockOnSpeakerCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.Constants.OIConstants;
@@ -58,6 +61,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final ArmSubsystem m_armSubsystem = new ArmSubsystem(); 
   public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
 
 
   private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
@@ -69,13 +73,11 @@ public class RobotContainer {
     
       swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
-                () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
+                () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis) * 0.1,
+                () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis) * 0.1,
+                () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis) * 0.3,
                 () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
                 m_armSubsystem));
-
-    
     
     configureBindings();
     // Configure the trigger bindings
@@ -84,14 +86,21 @@ public class RobotContainer {
 
   private void configureBindings() { 
 
-    new JoystickButton(joystick, 5).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(-1)).withTimeout(2.5));
-    new JoystickButton(joystick, 6).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(85)));
+    //new JoystickButton(joystick, 5).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(-1)).withTimeout(2.5));
+    //new JoystickButton(joystick, 6).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(85)));
     //new JoystickButton(joystick, 1).onTrue(new ShooterSourceCommand(m_shooterSubsystem, m_intakeSubsystem));
     // new JoystickButton(joystick, 2).onTrue(new ShooterBackWheelCommand(m_shooterSubsystem).raceWith(new WaitCommand(1.0)).andThen(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem)));
     
-    new JoystickButton(joystick, 4).onTrue(new ShooterIntakeCommand(m_shooterSubsystem, m_intakeSubsystem));
-    new JoystickButton(joystick, 1).onTrue(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem));
-   
+    //new JoystickButton(joystick, 4).onTrue(new ShooterIntakeCommand(m_shooterSubsystem, m_intakeSubsystem));
+    //new JoystickButton(joystick, 1).onTrue(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem));
+    new JoystickButton(driverJoytick, 2).whileTrue(new ArmLockOnSpeakerCommand(m_armSubsystem, m_limelightSubsystem));
+    new JoystickButton(driverJoytick, 3).whileTrue(new SwerveJoystickLockOnSpeakerCommand(
+        swerveSubsystem, 
+        () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis) * 0.1, 
+        () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis) * 0.1, 
+        () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
+        m_armSubsystem, 
+        m_limelightSubsystem));
   }
 
   /**

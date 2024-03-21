@@ -32,7 +32,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setMotor1(double speed){
-    motor1.set(speed);
+    motor1.set(-speed);
   }
 
   public void setMotor2(double speed){
@@ -41,14 +41,23 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setMotors(double speed)
   {
-    motor1.set(speed);
+    motor1.set(-speed);
     motor2.set(speed);
   }
   
   public double getEncoderAverage()
   {
-    return (motor1Encoder.getPosition() + motor2Encoder.getPosition()) / 2;
-    
+    return (-motor1Encoder.getPosition() + motor2Encoder.getPosition()) / 2;
+  }
+
+  public double getEncoder1()
+  {
+    return -motor1Encoder.getPosition();
+  }
+
+  public double getEncoder2()
+  {
+    return motor2Encoder.getPosition();
   }
   
   public void resetEncoders()
