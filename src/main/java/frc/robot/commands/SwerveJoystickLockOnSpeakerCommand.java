@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -22,12 +21,10 @@ public class SwerveJoystickLockOnSpeakerCommand extends Command {
     private final LimelightSubsystem limelightSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction;
     private final Supplier<Boolean> fieldOrientedFunction;
-    private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+    private final SlewRateLimiter xLimiter, yLimiter;
     double xSpeed = 0.0;
     double ySpeed = 0.0;
     double turningSpeed = 0.0;
-
-    private final PIDController turningContoller = new PIDController(0.1, 0, 0);
 
     public SwerveJoystickLockOnSpeakerCommand(SwerveSubsystem swerveSubsystem,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction,
@@ -38,7 +35,6 @@ public class SwerveJoystickLockOnSpeakerCommand extends Command {
         this.fieldOrientedFunction = fieldOrientedFunction;
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-        this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
         this.m_ArmSubsystem = m_ArmSubsystem;
         this.limelightSubsystem = limelightSubsystem;
         addRequirements(swerveSubsystem);
@@ -73,15 +69,12 @@ public class SwerveJoystickLockOnSpeakerCommand extends Command {
 
         double botX = limelightSubsystem.getBotPoseTableEntry(0); // get bot field position
         double botY = limelightSubsystem.getBotPoseTableEntry(1);
-        double botYaw = limelightSubsystem.getRedBotPose(5);
+        double botYaw = limelightSubsystem.getOppositeTeamBotposeTableEntry(5);
 
         double xDifference = botX - ShooterConstants.spkrX;
         double yDifference = botY - ShooterConstants.spkrY;
 
         double angleDistance = Math.atan2(yDifference, xDifference) - Math.toRadians(botYaw);
-        SmartDashboard.putNumber("angle distance", Math.toDegrees(angleDistance));
-        SmartDashboard.putNumber("bot yaw", botYaw);
-
         double sign = angleDistance < 0 ? -1 : 1;
 
         double smoothingMultiplier = Math.toDegrees(angleDistance) / 6;
@@ -90,10 +83,22 @@ public class SwerveJoystickLockOnSpeakerCommand extends Command {
             smoothingMultiplier = 1;
         }
 
-        turningSpeed = -sign * 0.7501 * Math.abs(smoothingMultiplier);
+        if(botX == 6814.6814) //if bot cannot see AprilTag, do not turn the bot
+        {
+            turningSpeed = 0;
+        }
+        else
+        {
+            turningSpeed = -sign * 0.7501 * Math.abs(smoothingMultiplier);
+        }
 
+        /*  No longer needed
         SmartDashboard.putNumber("turningspeed", turningSpeed);
+        SmartDashboard.putNumber("angle distance", Math.toDegrees(angleDistance));
+        SmartDashboard.putNumber("bot yaw", botYaw);
+        */
 
+        //============== regular swerve code ==============
         // 3. Make the driving smoother
         xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;

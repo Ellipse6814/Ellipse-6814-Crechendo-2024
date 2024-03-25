@@ -21,7 +21,7 @@ public final class Constants {
 
     public static final int kDriverYAxis = 1;
     public static final int kDriverXAxis = 0;
-    public static final int kDriverRotAxis = 4;
+    public static final int kDriverRotAxis = 2;
     public static final int kDriverFieldOrientedButtonIdx = 1;
 
     public static final double kDeadband = 0.05;
@@ -52,7 +52,7 @@ public final class Constants {
 
     //Speaker auto lock constants  -refer to this diagram I drew https://prnt.sc/dl8j1ajQFxI2
     public static final double spkrHeight = 1.5; //do not set to 0   -causes division by 0 error
-    public static final double spkrX = -8.1;
+    public static final double spkrX = -16.2;
     public static final double spkrY = 0.6;
   }
 

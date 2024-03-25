@@ -51,8 +51,8 @@ public class ArmLockOnSpeakerCommand extends Command {
   @Override
   public void execute() {
     //----Calculate distance to speaker----
-    double botX = limelightSubsystem.getBotPoseTableEntry(0); // get bot field position
-    double botY = limelightSubsystem.getBotPoseTableEntry(1);
+    double botX = limelightSubsystem.getMyTeamBotposeTableEntry(0); // get bot field position
+    double botY = limelightSubsystem.getMyTeamBotposeTableEntry(1); // UNTESTED PLS TEST ME!!!!
 
     double xDifference = botX - speakerXPos;
     double yDifference = botY - speakerYPos;
