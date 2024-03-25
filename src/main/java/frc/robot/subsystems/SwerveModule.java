@@ -25,8 +25,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 
 public class SwerveModule {
-
-
     private final CANSparkFlex driveMotor;
     private final CANSparkFlex turningMotor;
 
@@ -34,7 +32,6 @@ public class SwerveModule {
     private final RelativeEncoder turningEncoder;
     private final PIDController turningPidController;
 
-    
     private final CANcoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad;
@@ -47,29 +44,21 @@ public class SwerveModule {
         absoluteEncoder = new CANcoder(absoluteEncoderId);
         driveMotor = new CANSparkFlex(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkFlex(turningMotorId, MotorType.kBrushless);
-        
-        
 
         driveMotor.setInverted(driveMotorReversed);
         turningMotor.setInverted(turningMotorReversed);
         
         driveEncoder = driveMotor.getEncoder();
         turningEncoder = turningMotor.getEncoder();
-        
 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
         
-        
-        
         resetEncoders();
-        
     }
 
     public double getDrivePosition() {
-       
         return driveEncoder.getPosition() * ModuleConstants.kDriveEncoderRot2Meter;
-        
     }
 
     public double getTurningPosition() {
@@ -89,7 +78,6 @@ public class SwerveModule {
         angle *= (Math.PI * 2);
         angle -= absoluteEncoderOffsetRad;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
-
     }
 
     public void resetEncoders() {   
@@ -119,7 +107,6 @@ public class SwerveModule {
     public void writeValues(){  
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", 
         getState().toString() + " abs encoder rad " + getAbsoluteEncoderRad());
-
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] drive pos", getPosition().toString());
     }
 
