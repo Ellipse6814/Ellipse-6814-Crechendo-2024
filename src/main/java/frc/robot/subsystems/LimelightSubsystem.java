@@ -23,7 +23,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     public double getBotPoseTableEntry(int index) {
         // Index 0 is x, Index 1 is y, Index 5 is yaw
-        return botpose.getDoubleArray(new double[6])[index];
+        return botpose.getDoubleArray(new double[8])[index];
     }
 
 }

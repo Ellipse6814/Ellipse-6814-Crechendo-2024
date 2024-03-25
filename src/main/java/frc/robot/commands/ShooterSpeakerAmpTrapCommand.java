@@ -31,17 +31,13 @@ public class ShooterSpeakerAmpTrapCommand extends Command {
     start = Timer.getFPGATimestamp();
   }
 
-
   @Override
   public void execute() {
-    
     m_shooter.setMotor2(ShooterConstants.kShooterSpeakerAmpSpeed);
     //if(start + 1.5 < Timer.getFPGATimestamp()){
       m_shooter.setMotor3(ShooterConstants.kShooterSpeakerAmpSpeed);
       m_shooter.setMotor1(ShooterConstants.kShooterSpeakerAmpSpeed);
     //}
-    
-    
     m_intake.setspeed(0);
   }
 
