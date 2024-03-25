@@ -46,18 +46,16 @@ public class SwerveJoystickCmd extends Command {
     public void execute() {
         
         // 1. Get real-time joystick inputs
-        if(m_ArmSubsystem.getEncoderAverage() * Constants.ArmConstants.kEncoderTicks2Radians > 30){
+        if(m_ArmSubsystem.getEncoderAverage() * Constants.ArmConstants.kEncoderTicks2Radians > Math.toRadians(30)) {
             xSpeed = xSpdFunction.get();
             ySpeed = ySpdFunction.get();
             turningSpeed = turningSpdFunction.get();
-
-        } else{
+        } else {
             xSpeed = xSpdFunction.get();
             ySpeed = ySpdFunction.get();
             turningSpeed = turningSpdFunction.get();
-
         }
-        SmartDashboard.putBoolean("slowmode", m_ArmSubsystem.getEncoderAverage() > 30);
+        SmartDashboard.putBoolean("slowmode", m_ArmSubsystem.getEncoderAverage() > Math.toRadians(30));
         SmartDashboard.putNumber("slowmode calc", m_ArmSubsystem.getEncoderAverage() * Constants.ArmConstants.kEncoderTicks2Radians);
 
         // 2. Apply deadband

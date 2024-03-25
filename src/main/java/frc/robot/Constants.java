@@ -24,18 +24,18 @@ public final class Constants {
     public static final int kDriverRotAxis = 4;
     public static final int kDriverFieldOrientedButtonIdx = 1;
 
-    public static final double kDeadband = 0.05;
+    public static final double kDeadband = 0.25;
   }
   
   public static class ShooterConstants {
     //motors assume that a negative value is clockwise direction,
     //so values should generally be negative
-    public static final double kShooterIntakeSpeed = 0.8;
+    public static final double kShooterIntakeSpeed = 0.55;
     public static final double kShooterSourceSpeed = 0.2;
-    public static final double kShooterSpeakerAmpSpeed = 1.0;
+    public static final double kShooterSpeakerAmpSpeed = 0.9;
 
-    public static final int kBeamBreaker1Port = 2;
-    public static final int kBeamBreaker2Port = 6;
+    public static final int kBeamBreaker1Port = 4;
+    public static final int kBeamBreaker2Port = 5;
     
     public static final int kMotor1Port = 14;
     public static final int kMotor2Port = 11;
@@ -51,13 +51,13 @@ public final class Constants {
 
   public static class ClimbConstants
   {
-    public static final int kRightMotorPort = 19;
-    public static final int kLeftMotorPort = 18;
+    public static final int kRightMotorPort = 28;
+    public static final int kLeftMotorPort = 27;
 
     public static final int kLimitSwitchPort1 = 0;
-    public static final int kLimitSwitchPort2 = 2;
-    public static final int kLimitSwitchPort3 = 3;
-    public static final int kLimitSwitchPort4 = 4;
+    public static final int kLimitSwitchPort2 = 1;
+    public static final int kLimitSwitchPort3 = 2;
+    public static final int kLimitSwitchPort4 = 3;
 
     public static final double kp = 0.0;
     public static final double ki = 0.0;

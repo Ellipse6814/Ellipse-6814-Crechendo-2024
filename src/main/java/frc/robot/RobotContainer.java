@@ -17,10 +17,12 @@ import frc.robot.commands.ShooterSpeakerAmpTrapCommand;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ClimbCommandJoystick;
+import frc.robot.commands.LimelightUpdateCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -36,6 +38,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -55,43 +58,43 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  public final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final ArmSubsystem m_armSubsystem = new ArmSubsystem(); 
   public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  public final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+  public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
 
 
-  private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
+  private final Joystick joystick = new Joystick(0);
 
-  private final Joystick joystick = new Joystick(2);
+  private final XboxController driverJoystick = new XboxController(5);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    
-      swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-                swerveSubsystem,
-                () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
-                m_armSubsystem));
 
+        m_limelightSubsystem.setDefaultCommand(new LimelightUpdateCommand(m_limelightSubsystem, swerveSubsystem));
     
-    
+        swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+                swerveSubsystem,
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+                () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+                () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+                () -> driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
+                m_armSubsystem));
+        m_climbSubsystem.setDefaultCommand(new ClimbCommandJoystick(m_climbSubsystem, () -> joystick.getRawAxis(1), () -> joystick.getRawAxis(5)));
     configureBindings();
     // Configure the trigger bindings
   }
 
 
   private void configureBindings() { 
-
     new JoystickButton(joystick, 5).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(-1)).withTimeout(2.5));
     new JoystickButton(joystick, 6).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(85)));
     //new JoystickButton(joystick, 1).onTrue(new ShooterSourceCommand(m_shooterSubsystem, m_intakeSubsystem));
     // new JoystickButton(joystick, 2).onTrue(new ShooterBackWheelCommand(m_shooterSubsystem).raceWith(new WaitCommand(1.0)).andThen(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem)));
     
-    new JoystickButton(joystick, 4).onTrue(new ShooterIntakeCommand(m_shooterSubsystem, m_intakeSubsystem));
-    new JoystickButton(joystick, 1).onTrue(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem));
-   
+    new JoystickButton(joystick, 3).onTrue(new ShooterIntakeCommand(m_shooterSubsystem, m_intakeSubsystem));
+    new JoystickButton(joystick, 4).onTrue(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem));
   }
 
   /**
