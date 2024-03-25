@@ -17,12 +17,12 @@ public class ClimbCommandJoystick extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ClimbSubsystem m_subsystem;
 
-  private final double leftMotorSet, rightMotorSet;
+  private final Supplier<Double> leftMotorSupplier, rightMotorSupplier;
   
   public ClimbCommandJoystick(ClimbSubsystem subsystem, Supplier<Double> leftMotorSet, Supplier<Double> rightMotorSet) {
     m_subsystem = subsystem;
-    this.leftMotorSet = leftMotorSet.get();
-    this.rightMotorSet = rightMotorSet.get();
+    this.leftMotorSupplier = leftMotorSet;
+    this.rightMotorSupplier = rightMotorSet;
     addRequirements(subsystem);
   }
 
@@ -33,8 +33,11 @@ public class ClimbCommandJoystick extends Command {
 
   @Override
   public void execute() {
-    m_subsystem.setLeftMotor(leftMotorSet * 0.3);
-    m_subsystem.setRightMotor(rightMotorSet * 0.3);
+    double leftMotorSet = leftMotorSupplier.get();
+    double rightMotorSet = rightMotorSupplier.get();
+
+    m_subsystem.setLeftMotor(leftMotorSet);
+    m_subsystem.setRightMotor(rightMotorSet);
   }
 
   
