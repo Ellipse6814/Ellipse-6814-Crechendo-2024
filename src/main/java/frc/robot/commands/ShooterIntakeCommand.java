@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -35,9 +36,10 @@ public class ShooterIntakeCommand extends Command {
   @Override
   public void execute() {
       SmartDashboard.putString("is it running?", "yes");
-      m_shooterSubsystem.setMotor1(Constants.ShooterConstants.kShooterIntakeSpeed - 0.2);
-      m_shooterSubsystem.setMotor2(0);
+      m_shooterSubsystem.setLeftVortex(0);
+      m_shooterSubsystem.setRightVortex(0);
       m_shooterSubsystem.setMotor3(0);
+      m_shooterSubsystem.setMotor4(ShooterConstants.kShooterIntakeSpeed - 0.2);
       m_intake.setspeed(-1 * Constants.ShooterConstants.kShooterIntakeSpeed);
     
 

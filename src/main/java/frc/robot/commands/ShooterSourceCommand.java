@@ -33,7 +33,7 @@ public class ShooterSourceCommand extends Command {
     commandDone = false;
   }
 
-
+/*
   @Override
   public void execute() {
     SmartDashboard.putBoolean("beambreak1", m_shooterSubsystem.getSensor1());
@@ -64,6 +64,7 @@ public class ShooterSourceCommand extends Command {
 
     SmartDashboard.putBoolean("commandDone", commandDone);
   }
+  */
   
   @Override
   public void end(boolean interrupted) {

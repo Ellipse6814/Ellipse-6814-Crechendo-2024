@@ -7,40 +7,55 @@ package frc.robot.commands;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /** An example command that uses an example subsystem. */
-public class ShooterBackWheelCommand extends Command {
+public class ShooterAmpCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooter;
-
+  private final IntakeSubsystem m_intake;
+  public double start;
   
-  public ShooterBackWheelCommand(ShooterSubsystem shooterSubsystem) {
+  public ShooterAmpCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
     m_shooter = shooterSubsystem;
+    m_intake = intakeSubsystem;
   
-    addRequirements(shooterSubsystem);
+    addRequirements(shooterSubsystem, intakeSubsystem);
   }
 
  
   @Override
-  public void initialize() {}
+  public void initialize() {
+    start = Timer.getFPGATimestamp();
+  }
 
 
   @Override
   public void execute() {
-    m_shooter.setMotor2(ShooterConstants.kShooterSpeakerAmpSpeed);
-    m_shooter.setMotor3(ShooterConstants.kShooterSpeakerAmpSpeed);
+    m_shooter.setLeftVortex(ShooterConstants.kShooterAmpSpeed);
+    m_shooter.setRightVortex(ShooterConstants.kShooterAmpSpeed);
+    m_shooter.setMotor3(ShooterConstants.kShooterAmpSpeed);
+    m_shooter.setMotor4(ShooterConstants.kShooterAmpSpeed);  
+    m_intake.setspeed(0);
   }
 
   
   @Override
   public void end(boolean interrupted) {
     m_shooter.stop();
+    m_intake.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(start + 4 < Timer.getFPGATimestamp()){
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }
