@@ -4,48 +4,25 @@
 
 package frc.robot;
 
-import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmRaiseCommand;
-import frc.robot.commands.ShooterBackWheelCommand;
-import frc.robot.commands.ShooterIntakeBottomRollerCommand;
 import frc.robot.commands.ShooterIntakeCommand;
-import frc.robot.commands.ShooterSourceCommand;
 import frc.robot.commands.ShooterSpeakerAmpTrapCommand;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.Constants.OIConstants;
-import frc.robot.commands.ClimbCommandJoystick;
-import frc.robot.subsystems.ClimbSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 
-import java.util.List;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -53,45 +30,42 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+// The robot's subsystems and commands are defined here...
   public final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final ArmSubsystem m_armSubsystem = new ArmSubsystem(); 
   public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-
+  
+  private final SendableChooser<Command> autoChooser;
 
   private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
-
   private final Joystick joystick = new Joystick(2);
   
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    
-      swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+  /* The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {   
+        NamedCommands.registerCommand("Intake Command", new ShooterIntakeCommand(m_shooterSubsystem, m_intakeSubsystem));
+        NamedCommands.registerCommand("Shooter Command, Amp", new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem));
+
+        configureBindings();
+
+        swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
                 () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
                 () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
                 m_armSubsystem));
-
-    
-    
-    configureBindings();
-    // Configure the trigger bindings
+        
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
-
   private void configureBindings() { 
-
     new JoystickButton(joystick, 5).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(-1)).withTimeout(2.5));
-    new JoystickButton(joystick, 6).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(85)));
-    //new JoystickButton(joystick, 1).onTrue(new ShooterSourceCommand(m_shooterSubsystem, m_intakeSubsystem));
-    // new JoystickButton(joystick, 2).onTrue(new ShooterBackWheelCommand(m_shooterSubsystem).raceWith(new WaitCommand(1.0)).andThen(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem)));
+    new JoystickButton(joystick, 6).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(85)));    
     
     new JoystickButton(joystick, 4).onTrue(new ShooterIntakeCommand(m_shooterSubsystem, m_intakeSubsystem));
     new JoystickButton(joystick, 1).onTrue(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem));
-   
   }
 
   /**
@@ -102,7 +76,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
      // 1. Create trajectory settings
-        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+     /*    
+     TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                         .setKinematics(DriveConstants.kDriveKinematics);
@@ -140,10 +115,17 @@ public class RobotContainer {
                 swerveSubsystem);
 
         // 5. Add some init and wrap-up, and return everything
+        */
+        /*
         return new SequentialCommandGroup(
                 new WaitCommand(8),
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
                 swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
+        */
+        
+        return autoChooser.getSelected();
+        //PathPlannerPath path = PathPlannerPath.fromPathFile("Default Path");
+        //return AutoBuilder.followPath(null);
   }
 }
