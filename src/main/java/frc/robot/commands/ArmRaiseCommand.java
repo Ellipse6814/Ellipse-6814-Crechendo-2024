@@ -33,9 +33,7 @@ public class ArmRaiseCommand extends Command {
  
   @Override
   public void initialize() {
-    armSubsystem.motor1.setInverted(true);
-    armSubsystem.motor2.setInverted(false);
-   
+
   }
 
 

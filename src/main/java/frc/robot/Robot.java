@@ -45,9 +45,15 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
-    SmartDashboard.putNumber("Encoder value rad", m_robotContainer.m_armSubsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians);
-    SmartDashboard.putNumber("Encoder value deg", Math.toDegrees(m_robotContainer.m_armSubsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians));
-    SmartDashboard.putNumber("Encoder value raw", m_robotContainer.m_armSubsystem.getEncoderAverage());
+    SmartDashboard.putNumber("bot field x", m_robotContainer.m_limelightSubsystem.getBotPoseTableEntry(0));
+    SmartDashboard.putNumber("bot field y", m_robotContainer.m_limelightSubsystem.getBotPoseTableEntry(1));
+    SmartDashboard.putNumber("bot x team origin", m_robotContainer.m_limelightSubsystem.getMyTeamBotposeTableEntry(0));
+    SmartDashboard.putNumber("bot y team origin", m_robotContainer.m_limelightSubsystem.getMyTeamBotposeTableEntry(1));
+    SmartDashboard.putNumber("arm encoder 1", m_robotContainer.m_armSubsystem.getEncoder1());
+    SmartDashboard.putNumber("arm encoder 2", m_robotContainer.m_armSubsystem.getEncoder2());
+    SmartDashboard.putNumber("arm Encoder value rad", m_robotContainer.m_armSubsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians);
+    SmartDashboard.putNumber("arm Encoder value deg", Math.toDegrees(m_robotContainer.m_armSubsystem.getEncoderAverage() * ArmConstants.kEncoderTicks2Radians));
+    SmartDashboard.putNumber("arm Encoder value raw", m_robotContainer.m_armSubsystem.getEncoderAverage());
     SmartDashboard.putBoolean("beambreak1 lmao", m_robotContainer.m_shooterSubsystem.getSensor1());
     SmartDashboard.putBoolean("beambreak2 lmao", m_robotContainer.m_shooterSubsystem.getSensor2());
     CommandScheduler.getInstance().run();

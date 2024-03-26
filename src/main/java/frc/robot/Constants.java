@@ -21,9 +21,10 @@ public final class Constants {
 
     public static final int kDriverYAxis = 1;
     public static final int kDriverXAxis = 0;
-    public static final int kDriverRotAxis = 4;
+    public static final int kDriverRotAxis = 2;
     public static final int kDriverFieldOrientedButtonIdx = 1;
 
+    public static final double slowmodeMultiplier = 0.5; //amount to slow robot down when arm is >30 degrees
     public static final double kDeadband = 0.25;
   }
   
@@ -32,7 +33,11 @@ public final class Constants {
     //so values should generally be negative
     public static final double kShooterIntakeSpeed = 0.55;
     public static final double kShooterSourceSpeed = 0.2;
-    public static final double kShooterSpeakerAmpSpeed = 0.9;
+    public static final double kShooterSpeakerAmpSpeed = 1.0; // <--- not used anymore
+
+    public static final double kShooterAmpSpeed = 0;
+    public static final double kShooterSpeakerSpeed = 1.0;
+    public static final double kRightVortexSlowdownAmount = 0.3; // Slows down the right vortex on the shooter to give the note some spin
 
     public static final int kBeamBreaker1Port = 4;
     public static final int kBeamBreaker2Port = 5;
@@ -40,13 +45,20 @@ public final class Constants {
     public static final int kMotor1Port = 14;
     public static final int kMotor2Port = 11;
     public static final int kMotor3Port = 17;
+    public static final int kMotor4Port = 0;
     public static final int kIntakeMotorPort = 18;
 
     //clockwise is positive:
     public static final boolean kMotor1Inverted = true;
     public static final boolean kMotor2Inverted = true;
     public static final boolean kMotor3Inverted = true;
+    public static final boolean kMotor4Inverted = true;
     public static final boolean kIntakeMotorInverted = false;
+
+    //Speaker auto lock constants  -refer to this diagram I drew https://prnt.sc/dl8j1ajQFxI2
+    public static final double spkrHeight = 1.5; //do not set to 0   -causes division by 0 error
+    public static final double spkrX = -16.2;
+    public static final double spkrY = 0.6;
   }
 
   public static class ClimbConstants
