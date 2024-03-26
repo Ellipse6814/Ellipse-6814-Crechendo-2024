@@ -24,6 +24,7 @@ public final class Constants {
     public static final int kDriverRotAxis = 4;
     public static final int kDriverFieldOrientedButtonIdx = 1;
 
+    public static final double slowmodeMultiplier = 0.5; //amount to slow robot down when arm is >30 degrees
     public static final double kDeadband = 0.25;
   }
   
