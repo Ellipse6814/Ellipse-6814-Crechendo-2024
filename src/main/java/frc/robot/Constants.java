@@ -12,7 +12,7 @@ import edu.wpi.first.math.util.Units;
  * constants. This class should not be used for any other purpose. All constants should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>It is advised to staftically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
@@ -24,15 +24,14 @@ public final class Constants {
     public static final int kDriverRotAxis = 2;
     public static final int kDriverFieldOrientedButtonIdx = 1;
 
-    public static final double kDeadband = 0.05;
-    
     public static final double slowmodeMultiplier = 0.5; //amount to slow robot down when arm is >30 degrees
+    public static final double kDeadband = 0.25;
   }
   
   public static class ShooterConstants {
     //motors assume that a negative value is clockwise direction,
     //so values should generally be negative
-    public static final double kShooterIntakeSpeed = 0.8;
+    public static final double kShooterIntakeSpeed = 0.55;
     public static final double kShooterSourceSpeed = 0.2;
     public static final double kShooterSpeakerAmpSpeed = 1.0; // <--- not used anymore
 
@@ -40,8 +39,8 @@ public final class Constants {
     public static final double kShooterSpeakerSpeed = 1.0;
     public static final double kRightVortexSlowdownAmount = 0.3; // Slows down the right vortex on the shooter to give the note some spin
 
-    public static final int kBeamBreaker1Port = 2;
-    public static final int kBeamBreaker2Port = 6;
+    public static final int kBeamBreaker1Port = 4;
+    public static final int kBeamBreaker2Port = 5;
     
     public static final int kMotor1Port = 14;
     public static final int kMotor2Port = 11;
@@ -64,13 +63,13 @@ public final class Constants {
 
   public static class ClimbConstants
   {
-    public static final int kRightMotorPort = 19;
-    public static final int kLeftMotorPort = 18;
+    public static final int kRightMotorPort = 28;
+    public static final int kLeftMotorPort = 27;
 
     public static final int kLimitSwitchPort1 = 0;
-    public static final int kLimitSwitchPort2 = 2;
-    public static final int kLimitSwitchPort3 = 3;
-    public static final int kLimitSwitchPort4 = 4;
+    public static final int kLimitSwitchPort2 = 1;
+    public static final int kLimitSwitchPort3 = 2;
+    public static final int kLimitSwitchPort4 = 3;
 
     public static final double kp = 0.0;
     public static final double ki = 0.0;
@@ -168,8 +167,7 @@ public final class Constants {
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 1.25;
-        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
-                kPhysicalMaxAngularSpeedRadiansPerSecond / 2;
+        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 2;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
     }

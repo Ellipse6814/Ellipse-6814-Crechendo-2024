@@ -31,7 +31,6 @@ public class ShooterAmpCommand extends Command {
     start = Timer.getFPGATimestamp();
   }
 
-
   @Override
   public void execute() {
     m_shooter.setLeftVortex(ShooterConstants.kShooterAmpSpeed);
