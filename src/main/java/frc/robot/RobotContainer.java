@@ -64,6 +64,8 @@ public class RobotContainer {
   public final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
 
+  private final SendableChooser<Command> autoChooser;
+
 
   private final Joystick joystick = new Joystick(0);
 
@@ -71,6 +73,8 @@ public class RobotContainer {
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+        NamedCommands.registerCommand("Intake Command", new ShooterIntakeCommand(m_shooterSubsystem, m_intakeSubsystem));
+        NamedCommands.registerCommand("Shooter Command, Amp", new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem));
 
         m_limelightSubsystem.setDefaultCommand(new LimelightUpdateCommand(m_limelightSubsystem, swerveSubsystem));
     
@@ -82,16 +86,17 @@ public class RobotContainer {
                 () -> driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
                 m_armSubsystem));
         m_climbSubsystem.setDefaultCommand(new ClimbCommandJoystick(m_climbSubsystem, () -> joystick.getRawAxis(1), () -> joystick.getRawAxis(5)));
-    configureBindings();
-    // Configure the trigger bindings
+    
+        // Configure the trigger bindings
+        configureBindings();
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
 
   private void configureBindings() { 
     new JoystickButton(joystick, 5).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(-1)).withTimeout(2.5));
     new JoystickButton(joystick, 6).onTrue(new ArmRaiseCommand(m_armSubsystem, Math.toRadians(85)));
-    //new JoystickButton(joystick, 1).onTrue(new ShooterSourceCommand(m_shooterSubsystem, m_intakeSubsystem));
-    // new JoystickButton(joystick, 2).onTrue(new ShooterBackWheelCommand(m_shooterSubsystem).raceWith(new WaitCommand(1.0)).andThen(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem)));
     
     new JoystickButton(joystick, 3).onTrue(new ShooterIntakeCommand(m_shooterSubsystem, m_intakeSubsystem));
     new JoystickButton(joystick, 4).onTrue(new ShooterSpeakerAmpTrapCommand(m_shooterSubsystem, m_intakeSubsystem));
@@ -105,7 +110,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
      // 1. Create trajectory settings
-        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+     /*  
+     TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                         .setKinematics(DriveConstants.kDriveKinematics);
@@ -148,5 +154,7 @@ public class RobotContainer {
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
                 swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
+        */
+        return autoChooser.getSelected();
   }
 }
