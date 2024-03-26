@@ -55,6 +55,8 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
+    private final SwerveModule[] modules = new SwerveModule[]{frontLeft, frontRight, backLeft, backRight};
+
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
     
     
@@ -78,7 +80,31 @@ public class SwerveSubsystem extends SubsystemBase {
         }).start();
     }
 
-  
+    AutoBuilder.configureHolonomic(
+            this::getPose,
+            this::resetOdometry,
+            this::getSpeeds,
+            this::driveRobotRelative,
+            new HolonomicPathFollowerConfig( 
+                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+                    DriveConstants.kPhysicalMaxSpeedMetersPerSecond, // Max module speed, in m/s
+                    0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+                    new ReplanningConfig() // Default path replanning config. See the API for the options here
+            ),
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+        );
 
     public void zeroHeading() {
         gyro.reset();
@@ -93,11 +119,28 @@ public class SwerveSubsystem extends SubsystemBase {
         return Rotation2d.fromDegrees(getHeading());
     }
 
-
-    
-    
     public Pose2d getPose() {
         return odometer.getPoseMeters();
+    }
+
+    public ChassisSpeeds getSpeeds() {
+        return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
+    }
+
+    public SwerveModuleState[] getModuleStates() {
+        // Thank you michael jansen
+        SwerveModuleState[] states = new SwerveModuleState[modules.length];
+        for (int i = 0; i < modules.length; i++) {
+            states[i] = modules[i].getState();
+        }
+        return states;
+    }
+
+    public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
+
+        SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetSpeeds);
+        setModuleStates(targetStates);
     }
 
     public void resetOdometry(Pose2d pose) {
@@ -109,8 +152,6 @@ public class SwerveSubsystem extends SubsystemBase {
         },
         pose);
     }
-
- 
 
     public void stopModules() {
         frontLeft.stop();
