@@ -12,20 +12,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /** An example command that uses an example subsystem. */
-public class ShooterSpeakerAmpTrapCommand extends Command {
+public class ShooterSpeakerCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooter;
   private final IntakeSubsystem m_intake;
   public double start;
-  
-  public ShooterSpeakerAmpTrapCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
+
+  public ShooterSpeakerCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
     m_shooter = shooterSubsystem;
     m_intake = intakeSubsystem;
-  
+
     addRequirements(shooterSubsystem, intakeSubsystem);
   }
 
- 
+
   @Override
   public void initialize() {
     start = Timer.getFPGATimestamp();
@@ -34,15 +34,15 @@ public class ShooterSpeakerAmpTrapCommand extends Command {
 
   @Override
   public void execute() {
-    m_shooter.setMotor2(ShooterConstants.kShooterSpeakerAmpSpeed);
-    //if(start + 1.5 < Timer.getFPGATimestamp()){
-      m_shooter.setMotor3(ShooterConstants.kShooterSpeakerAmpSpeed);
-      m_shooter.setMotor1(ShooterConstants.kShooterSpeakerAmpSpeed);
-    //}
+
+    m_shooter.setLeftVortex(ShooterConstants.kShooterSpeakerSpeed);
+    m_shooter.setRightVortex(ShooterConstants.kShooterSpeakerSpeed - ShooterConstants.kRightVortexSlowdownAmount);
+    m_shooter.setMotor3(ShooterConstants.kShooterSpeakerSpeed);   
+    m_shooter.setMotor4(ShooterConstants.kShooterSpeakerSpeed);
     m_intake.setspeed(0);
   }
 
-  
+
   @Override
   public void end(boolean interrupted) {
     m_shooter.stop();

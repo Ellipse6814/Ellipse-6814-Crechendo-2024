@@ -24,33 +24,39 @@ public class ShooterSubsystem extends SubsystemBase {
   private final DigitalInput beamBreaker1;
   private final DigitalInput beamBreaker2;
   
-  private final CANSparkMax motor1;
-  private final CANSparkMax motor2;
+  private final CANSparkMax vortexLeft_motor1;
+  private final CANSparkMax vortexRight_motor2;
   private final CANSparkMax motor3;
+  private final CANSparkMax motor4;
 
   public ShooterSubsystem() {
     beamBreaker1 = new DigitalInput(ShooterConstants.kBeamBreaker1Port);
     beamBreaker2 = new DigitalInput(ShooterConstants.kBeamBreaker2Port);
 
-    motor1 = new CANSparkMax(ShooterConstants.kMotor1Port, MotorType.kBrushless);    
-    motor2 = new CANSparkMax(ShooterConstants.kMotor2Port, MotorType.kBrushless);
+    vortexLeft_motor1 = new CANSparkMax(ShooterConstants.kMotor1Port, MotorType.kBrushless);    
+    vortexRight_motor2 = new CANSparkMax(ShooterConstants.kMotor2Port, MotorType.kBrushless);
     motor3 = new CANSparkMax(ShooterConstants.kMotor3Port, MotorType.kBrushless);
+    motor4 = new CANSparkMax(ShooterConstants.kMotor4Port, MotorType.kBrushless);
 
-    motor1.setInverted(ShooterConstants.kMotor1Inverted);
-    motor2.setInverted(ShooterConstants.kMotor2Inverted);
+    vortexLeft_motor1.setInverted(ShooterConstants.kMotor1Inverted);
+    vortexRight_motor2.setInverted(ShooterConstants.kMotor2Inverted);
     motor3.setInverted(ShooterConstants.kMotor3Inverted);
+    motor4.setInverted(ShooterConstants.kMotor4Inverted);
   }
 
-  public void setMotor1(double speed){
-    motor1.set(speed);
+  public void setLeftVortex(double speed){
+    vortexLeft_motor1.set(speed);
   }
 
-  public void setMotor2(double speed){
-    motor2.set(speed);
+  public void setRightVortex(double speed){
+    vortexRight_motor2.set(speed);
   }
 
   public void setMotor3(double speed){
     motor3.set(speed);
+  }
+  public void setMotor4(double speed){
+    motor4.set(speed);
   }
   
   public boolean getSensor1(){
@@ -63,9 +69,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stop()
   {
-    motor1.set(0);
-    motor2.set(0);
+    vortexLeft_motor1.set(0);
+    vortexRight_motor2.set(0);
     motor3.set(0);
+    motor4.set(0);
   }
 
   @Override
