@@ -70,7 +70,7 @@ public class SwerveJoystickLockOnSpeakerCommand extends Command {
 
         double botX = limelightSubsystem.getBotPoseTableEntry(0); // get bot field position
         double botY = limelightSubsystem.getBotPoseTableEntry(1);
-        double botYaw = EllipseMath.rad_angle_to_negative90_90(limelightSubsystem.getOppositeTeamBotposeTableEntry(5));
+        double botYaw = limelightSubsystem.getOppositeTeamBotposeTableEntry(5);
 
         double xDifference = botX - ShooterConstants.spkrX;
         double yDifference = botY - ShooterConstants.spkrY;
