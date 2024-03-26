@@ -23,10 +23,10 @@ public class LimelightUpdateCommand extends Command {
 
     @Override
     public void execute() {
-        Rotation2d rotation = new Rotation2d(Math.toRadians(m_Limelight.getBotPoseTableEntry(0)));
+        Rotation2d rotation = new Rotation2d(Math.toRadians(m_Limelight.getBotPoseTableEntry(5)));
         Pose2d pose = new Pose2d(m_Limelight.getBotPoseTableEntry(0), m_Limelight.getBotPoseTableEntry(1), rotation);
 
-        if (m_Limelight.getBotPoseTableEntry(7) == 2) {
+        if (m_Limelight.getBotPoseTableEntry(7) >= 2) {
             m_Swerve.resetOdometry(pose);
         }
 
