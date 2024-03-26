@@ -24,6 +24,7 @@ public final class Constants {
     public static final int kDriverRotAxis = 4;
     public static final int kDriverFieldOrientedButtonIdx = 1;
 
+    public static final double slowmodeMultiplier = 0.5; //amount to slow robot down when arm is >30 degrees
     public static final double kDeadband = 0.25;
   }
   
@@ -47,6 +48,11 @@ public final class Constants {
     public static final boolean kMotor2Inverted = true;
     public static final boolean kMotor3Inverted = true;
     public static final boolean kIntakeMotorInverted = false;
+      
+    //Speaker auto lock constants  -refer to this diagram I drew https://prnt.sc/dl8j1ajQFxI2
+    public static final double spkrHeight = 1.5; //do not set to 0   -causes division by 0 error
+    public static final double spkrX = -16.2;
+    public static final double spkrY = 0.6;
   }
 
   public static class ClimbConstants
